@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import styles from '../styles/styleExplore';
 import stylenav from '../styles/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import categories from "../data/categories.json"
+//import categories from "../data/categories.json"
 import Categories from '../components/Categories';
 import Experiences from '../components/Experiences';
-import experiences from "../data/experiences.json"
+//import experiences from "../data/experiences.json"
 import {
     View,
     Text,
@@ -24,14 +24,39 @@ export default class ExploreContainer extends Component {
             )
         }
     };
+    constructor(props) {
+        super(props)
+        this.state = {
+            categories: [],
+            experiences: []
+        }
+    }
+
+    componentDidMount() {
+        return fetch('https://api.myjson.com/bins/61fqq') // requête vers l'API
+            .then((response) => response.json()) // transformation JSON
+            .then((responseJson) => { // exploitation du résultat
+
+                this.setState({ categories: responseJson.categories, experiences: responseJson.experiences.listings })
+
+
+
+            })
+
+    }
+
+
+
+
     render() {
+
         return (
 
             <View style={styles.body}>
                 <View style={styles.sectionContainer}>
                     <Text style={styles.title}>Explore Airbnb</Text>
 
-                    <Categories categories={categories} />
+                    <Categories categories={this.state.categories} />
 
                     <View style={styles.sectionexperiences}>
                         <Text style={styles.titleexperiences}>Experiences</Text>
@@ -39,7 +64,7 @@ export default class ExploreContainer extends Component {
                     </View>
 
 
-                    <Experiences experiences={experiences} />
+                    <Experiences experiences={this.state.experiences} />
 
 
 
