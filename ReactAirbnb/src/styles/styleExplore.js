@@ -84,6 +84,13 @@ const styles = StyleSheet.create({
     categories: {
         marginBottom: 40,
     },
+    favori: {
+        flex: 1,
+        position: 'absolute',
+        right: 10,
+        top: 10,
+
+    }
 
 
 

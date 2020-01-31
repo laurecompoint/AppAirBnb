@@ -32,7 +32,7 @@ class Input extends Component {
     }
 
     validateemail = text => {
-        console.log(text);
+
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(text) === false) {
             //console.log('Email is Not Correct');

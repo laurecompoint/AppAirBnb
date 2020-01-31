@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import styles from '../styles/styleExplore';
 import Stars from '../components/Stars';
+import Card from '../components/Card';
+import photos from '../data/photos/index';
 import {
     View,
     Image,
     Text,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import colors from '../styles/colors/index';
 
 
 class Experiences extends Component {
@@ -21,16 +24,21 @@ class Experiences extends Component {
                 <ScrollView contentContainerStyle={styles.container} horizontal={true}>
 
                     {
-                        experiences.map((category, index) => (
-                            <View style={styles.cardExperience} key={`category-item-${index}`}>
-                                <Image source={category.photo} style={styles.imageexperience} />
-                                <Text style={{ color: category.color }}>{category.type}</Text>
-                                <Text style={styles.textdescription}>{category.title}</Text>
-                                <Text style={styles.textprice}> ${category.price} {category.priceType}</Text>
+                        experiences.map((cardExperience, index) => (
 
-                                <Stars></Stars>
+                            <Card
 
-                            </View>
+                                key={`category-item-${index}`}
+                                image={photos[cardExperience.photo]}
+                                title={cardExperience.type}
+                                type={cardExperience.title}
+                                price={cardExperience.price}
+                                priceType={'$' + cardExperience.pricetype}
+                                stars={cardExperience.stars}
+                                colors={colors[cardExperience.color]}></Card>
+
+
+
                         ))
                     }
 

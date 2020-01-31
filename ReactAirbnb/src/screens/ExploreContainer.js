@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import styles from '../styles/styleExplore';
 import stylenav from '../styles/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import categories from "../data/categories"
+import categories from "../data/categories.json"
 import Categories from '../components/Categories';
 import Experiences from '../components/Experiences';
-import { experiences } from "../data/listings"
+import experiences from "../data/experiences.json"
 import {
     View,
     Text,

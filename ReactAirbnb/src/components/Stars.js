@@ -6,11 +6,11 @@ import {
     Image,
     Text,
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import colors from '../styles/colors';
 
 
-class Experiences extends Component {
+import colors from '../styles/colors/index';
+
+export default class Stars extends Component {
     constructor(props) {
         super(props)
 
@@ -43,4 +43,4 @@ class Experiences extends Component {
     }
 
 }
-export default Experiences;
+//export default Experiences;

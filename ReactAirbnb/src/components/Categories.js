@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styles from '../styles/styleExplore';
+import photos from '../data/photos/index';
+
 import {
     View,
     Image,
@@ -18,7 +20,7 @@ class Categories extends Component {
                 {
                     categories.map((category, index) => (
                         <View style={styles.card} key={`category-item-${index}`}>
-                            <Image source={category.photo} style={styles.image} />
+                            <Image source={photos[category.photo]} style={styles.image} />
                         </View>
                     ))
                 }
