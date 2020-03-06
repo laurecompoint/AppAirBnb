@@ -5,24 +5,21 @@
  * @format
  * @flow
  */
-import LoggedOut from "./src/screens/LoggedOut"
-import Login from "./src/screens/login"
-import ExploreContainer from "./src/screens/ExploreContainer"
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux';
+import Navigation from "./src/navigation"
+import reducers from "./src/reducers"
+import React, { Component } from 'react';
+import { composeWithDevTools } from 'redux-devtools-extension';
+const store = createStore(reducers, composeWithDevTools());
 
-/**
- * createStackNavigator permet de définir la navigation
- * Le premier écran correspond à l'écran de départ de l'application
- */
-const MainStackNavigator = createStackNavigator({
-  LoggedOut: { screen: LoggedOut },
-  Login: { screen: Login },
-  ExploreContainer: { screen: ExploreContainer },
-}, {
-  headerMode: 'screen' // headerMode: 'screen' pour gérer le header grâce à la variable navigationOptions
-  // Si navigationOptions n'est pas définit alors apparition d'un header blanc
-});
-
-const App = createAppContainer(MainStackNavigator);
+class App extends Component {
+  render() {
+    return (
+      <Provider store={store} >
+        <Navigation />
+      </Provider>
+    );
+  }
+}
 export default App;

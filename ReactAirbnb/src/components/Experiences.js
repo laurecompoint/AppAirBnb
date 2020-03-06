@@ -24,18 +24,18 @@ class Experiences extends Component {
                 <ScrollView contentContainerStyle={styles.container} horizontal={true}>
 
                     {
-                        experiences.map((cardExperience, index) => (
+                        experiences.map((experiences, index) => (
 
                             <Card
 
                                 key={`category-item-${index}`}
-                                image={photos[cardExperience.photo]}
-                                title={cardExperience.type}
-                                type={cardExperience.title}
-                                price={cardExperience.price}
-                                priceType={'$' + cardExperience.pricetype}
-                                stars={cardExperience.stars}
-                                colors={colors[cardExperience.color]}></Card>
+                                image={photos[experiences.photo]}
+                                title={experiences.type}
+                                type={experiences.title}
+                                price={experiences.price}
+                                priceType={'$' + experiences.pricetype}
+                                stars={experiences.stars}
+                                colors={colors[experiences.color]}></Card>
 
 
 

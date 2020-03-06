@@ -37,9 +37,12 @@ class Card extends Component {
                 <Icon size={20} style={styles.favori} name="heart-o" color={'white'}></Icon>
                 <Text style={{ color: colors }}>{title}</Text>
                 <Text style={styles.textdescription}>{type}</Text>
-                <Text style={styles.textprice}> {price} {pricetype}</Text>
 
-                <Stars votes={stars} size={size} color={'blue'}></Stars>
+                <View>
+                    <Text style={styles.textprice}> {price} {pricetype}</Text>
+
+                    <Stars votes={stars} size={size} color={'blue'}></Stars>
+                </View>
 
             </View>
 
