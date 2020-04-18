@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from './styles.js';
 
 import {
     View,
@@ -6,113 +7,128 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
-import styles from '../styles/style';
 
-class Input extends Component {
 
+export default class Input extends Component {
     constructor(props) {
-        super(props)
-
+        super(props);
         this.state = {
-            value: '',
-            secureTextEntry: true,
-            email: '',
+            myText: 'Afficher',
+            displayPassword: true,
+
             validated: false,
-            buttonshow: false
-        }
+            pressValid: false,
+            password: '',
+            email: ''
+        };
+
     }
 
-    toggleSecureTextEntry = () => {
-        // this.state.secureTextEntry correspond au state courant
-        // setState() permet de modifier secureTextEntry
-        this.setState({
-            secureTextEntry: !this.state.secureTextEntry, // Je modifie le state courant avec sa valeur inversée. 
+    login = () => {
 
+        const { password, email } = this.state
+
+        return fetch('https://bbnb-booking.now.sh/api/users/signIn', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                password,
+            }),
         })
+            .then((response) => response.json())
+            .then((response) => {
+                // sauvegarde du token dabs le local storage
+                return AsyncStorage
+                    .setItem('userToken', response.authorization)
+                    .then(() => {
+                        this.props.navigation.navigate('ExploreContainer')
+                    })
+            })
     }
-
-    validateemail = text => {
-
+    validate = textEmail => {
+        console.log(textEmail);
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (reg.test(text) === false) {
-            //console.log('Email is Not Correct');
-            this.setState({ email: text });
-            this.setState({ emailvalide: 'Email is Not Correct' })
+        if (reg.test(textEmail) === false) {
+            // alert('Email is Not Correct');
+            console.log('Email is Not Correct');
+            this.setState({ email: 'Email non valide !' });
             return false;
         } else {
-            this.setState({ email: text });
-            // console.log('Email is Correct');
-            this.setState({ emailvalide: 'Email is Correct' })
+            // alert('Email is Correct');
+            this.setState({ email: '' });
+            console.log('Email is Correct');
         }
     };
-
-
-    onPress = () => {
+    emailValid = () => {
         this.setState({
-            buttonshow: !this.state.buttonshow
-        })
+            pressValid: !this.state.pressValid,
+        });
+    };
 
-    }
     render() {
-
-        const { secureTextEntry } = this.state
-        const { inputType, label } = this.props;
-        const isPasswordInput = inputType === 'password'
-        const isEmailInput = inputType === 'email'
+        const { textInputType } = this.props;
+        const { displayPassword } = this.state;
+        const { displayMsg } = this.state;
         return (
-            <View style={styles.sectionImageText}>
-
-                <View style={styles.sectionloginbnb}>
-                    <Text style={styles.sectioninput}>{label}</Text>
-                    {isPasswordInput &&
-                        <TouchableOpacity onPress={() => {
-                            this.toggleSecureTextEntry()
-                        }}>
-                            <Text style={styles.sectionShow}>{secureTextEntry ? 'Show' : 'Hide'}</Text>
+            <View style={[styles.champ]}>
+                <View style={[styles.flex]}>
+                    <Text style={[styles.textLabel]}>{this.props.title}</Text>
+                    {textInputType === 'email' && (
+                        <TouchableOpacity onPress={this.emailValid}>
+                            <Text style={[styles.textShowPassword]}>Valider</Text>
                         </TouchableOpacity>
-                    }
-                </View>
-
-                <TextInput
-                    style={{ height: 40, marginTop: 20, width: 355, color: 'white', borderBottomColor: '#009999', marginLeft: 13, borderColor: '#008388', borderWidth: 1 }}
-
-                    onChangeText={text => this.validateemail(text)}
-                    value={this.state.email}
-                    inputType={inputType}
-                    secureTextEntry={isPasswordInput && secureTextEntry}
-                />
-                <View>
-                    <Text style={{ marginLeft: 10, color: '#720F06' }}>
-
-                        {this.state.buttonshow == true ? <Text> {this.state.emailvalide}</Text > : null}
-
-
-
-                    </Text>
-                </View>
-                <View style={styles.sectionloginbnb}>
-                    {isEmailInput &&
+                    )}
+                    {textInputType === 'password' && (
                         <TouchableOpacity
-
-                            onPress={this.onPress}
-
-                        >
-                            <Text style={{ marginLeft: 10, color: '#FFFFFF' }}>Valider</Text>
+                            onPress={() => {
+                                const myText = this.state.displayPassword
+                                    ? 'Masquer'
+                                    : 'Afficher';
+                                this.setState({
+                                    displayPassword: !this.state.displayPassword,
+                                    myText,
+                                });
+                            }}>
+                            <Text style={styles.textShowPassword}>{this.state.myText}</Text>
                         </TouchableOpacity>
-
-
-
-                    }
-
+                    )}
                 </View>
+                {textInputType === 'email' && (
+                    <TextInput
+                        style={[styles.textInput]}
+                        placeholder="Saississez un e-mail"
+                        secureTextEntry={displayMsg}
+                        onChangeText={(text) => { this.setState({ email: text }) }}
+                    //onChangeText={textEmail => this.validate(textEmail)}
+                    //value={this.state.email}
+                    ></TextInput>
+                )}
+                {this.state.pressValid == true ? (
+                    <Text onPress={this.emailValid} style={[styles.textValid]}>
+                        {this.state.email}
+                    </Text>
+                ) : null}
+                {textInputType === 'password' && (
+                    <View>
+                        <TextInput
+                            style={[styles.textInput]}
+                            textContentType={'password'}
+                            placeholder="Saississez un mot de passe"
+                            secureTextEntry={displayPassword}
+                            onChangeText={(text) => { this.setState({ password: text }) }}
+                        ></TextInput>
+                        <TouchableOpacity onPress={this.login}>
+                            <Text>GO LOGIN</Text>
+                        </TouchableOpacity>
+                        <Text>{this.state.password}</Text>
+                    </View>
+                )}
 
             </View>
-
-
-        )
-
+        );
     }
 }
-
-
-export default Input;

@@ -58,7 +58,7 @@ class ExploreContainer extends Component {
         return (
 
             <View style={styles.body}>
-                <ActivityIndicator size="large" color="#0000ff" />
+
                 <View style={styles.sectionContainer}>
                     <Text style={styles.title}>Explore Airbnb</Text>
 

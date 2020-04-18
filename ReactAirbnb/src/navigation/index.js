@@ -1,15 +1,24 @@
 import LoggedOut from "../screens/LoggedOut"
 import Login from "../screens/login"
-import ExploreContainer from "../screens/ExploreContainer"
-import { createAppContainer } from 'react-navigation';
+import ExploreContainer from "./LoggedInTabNavigator"
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-const MainStackNavigator = createStackNavigator({
+
+import AuthLoadingScreen from '../screens/AuthLoading';
+
+const AuthNavigator = createStackNavigator({
     LoggedOut: { screen: LoggedOut },
-    Login: { screen: Login },
-    ExploreContainer: { screen: ExploreContainer },
-}, {
-    headerMode: 'screen' // headerMode: 'screen' pour gérer le header grâce à la variable navigationOptions
-    // Si navigationOptions n'est pas définit alors apparition d'un header blanc
-});
+    Login: { screen: Login }
+})
+const MainStackNavigator = createSwitchNavigator(
+    {
+        AuthLoading: { screen: AuthLoadingScreen },
+        Auth: { screen: AuthNavigator },
+        ExploreContainer: { screen: ExploreContainer },
+    },
+    {
+        headerMode: 'screen',
+    },
+);
 
 export default createAppContainer(MainStackNavigator);

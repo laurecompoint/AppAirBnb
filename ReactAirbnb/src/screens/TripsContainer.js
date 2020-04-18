@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import styles from '../styles/style';
-import Input from '../components/Input';
-import ButtonsValider from '../components/ButtonsValider';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View,
     Text,
-    TextInput,
     TouchableOpacity
 } from 'react-native';
-export default class Login extends Component {
-
-
-
+export default class TripsContainer extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             header: (
@@ -27,23 +22,7 @@ export default class Login extends Component {
         return (
 
             <View style={styles.body}>
-                <View style={styles.sectionContainer}>
-
-                    <View style={styles.sectionImageText}>
-
-                        <Text style={styles.sectionTitleAibnb}>Log in</Text>
-
-                        <Input title={'Adresse e-mail'} textInputType={'email'} />
-                        <Input title={'Mot de passe'} textInputType={'password'} />
-
-
-                    </View>
-
-
-                    <ButtonsValider navigation={this.props.navigation} backgroundColor={'white'} text={'#008388'}></ButtonsValider>
-
-
-                </View>
+                <Text>Saved</Text>
             </View>
         )
 
